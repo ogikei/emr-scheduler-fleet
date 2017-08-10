@@ -1,0 +1,33 @@
+{
+  "emr": {
+    "clusterName": "EMR Test",
+    "emrVersion": "emr-5.6.0",
+    "applications": [
+      "hive",
+      "spark"
+    ],
+    "serviceRole": "EMR_DefaultRole",
+    "jobFlowRole": "EMR_EC2_DefaultRole",
+    "keyName": "emr-test",
+    "resources": {
+      "master": {
+        "type": "m4.large",
+        "securityGroup": "sg-df893eb9",
+        "bidPrice": "0.05",
+        "targetSpotCapacity": 1,
+        "targetOnDemandCapacity": 1,
+        "timeoutDurationMinutes": 120,
+        "timeoutAction": "SWITCH_TO_ON_DEMAND"
+      },
+      "slave": {
+        "type": "m4.large",
+        "securityGroup": "sg-818a3de7",
+        "bidPrice": "0.05",
+        "targetSpotCapacity": 2,
+        "targetOnDemandCapacity": 2,
+        "timeoutDurationMinutes": 120,
+        "timeoutAction": "TERMINATE_CLUSTER"
+      }
+    }
+  }
+}
