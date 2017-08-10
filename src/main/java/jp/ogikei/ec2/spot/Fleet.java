@@ -67,6 +67,8 @@ public class Fleet {
     return new ModifyInstanceFleetRequest()
         .withInstanceFleet(instanceFleetModifyConfig)
         .withClusterId("");
+
+//    SpotSpecification -> SpotProvisioningSpecification
   }
 
 }
