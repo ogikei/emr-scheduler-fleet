@@ -19,7 +19,16 @@
         "timeoutDurationMinutes": 120,
         "timeoutAction": "SWITCH_TO_ON_DEMAND"
       },
-      "slave": {
+      "core": {
+        "type": "m4.large",
+        "securityGroup": "sg-818a3de7",
+        "bidPrice": "0.05",
+        "targetSpotCapacity": 2,
+        "targetOnDemandCapacity": 2,
+        "timeoutDurationMinutes": 120,
+        "timeoutAction": "TERMINATE_CLUSTER"
+      },
+      "task": {
         "type": "m4.large",
         "securityGroup": "sg-818a3de7",
         "bidPrice": "0.05",
