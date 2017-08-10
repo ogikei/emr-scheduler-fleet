@@ -30,6 +30,7 @@ public class Fleet {
     ListInstanceFleetsRequest listInstanceFleetsRequest = new ListInstanceFleetsRequest();
 
     InstanceTypeConfig instanceTypeConfig = new InstanceTypeConfig()
+        .withConfigurations()
         .withInstanceType(masterJSON.getString("type"))
         .withBidPrice(masterJSON.getString("bidPrice"))
         .withWeightedCapacity(masterJSON.getInt("targetSpotCapacity"));
@@ -69,3 +70,5 @@ public class Fleet {
   }
 
 }
+
+// http://docs.aws.amazon.com/emr/latest/DeveloperGuide/emr-instance-fleet.html
