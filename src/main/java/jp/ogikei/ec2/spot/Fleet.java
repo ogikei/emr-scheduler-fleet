@@ -72,3 +72,4 @@ public class Fleet {
 }
 
 // http://docs.aws.amazon.com/emr/latest/DeveloperGuide/emr-instance-fleet.html
+// only can use units via api
