@@ -7,6 +7,8 @@ import com.amazonaws.services.elasticmapreduce.model.InstanceFleetType;
 import com.amazonaws.services.elasticmapreduce.model.InstanceTypeConfig;
 import com.amazonaws.services.elasticmapreduce.model.ListInstanceFleetsRequest;
 import com.amazonaws.services.elasticmapreduce.model.ModifyInstanceFleetRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import com.amazonaws.services.elasticmapreduce.model.InstanceFleetConfig;
@@ -32,11 +34,26 @@ public class Fleet {
         .withBidPrice(masterJSON.getString("bidPrice"))
         .withWeightedCapacity(masterJSON.getInt("targetSpotCapacity"));
 
+    InstanceTypeConfig instanceTypeConfig2 = new InstanceTypeConfig()
+        .withInstanceType(masterJSON.getString("type"))
+        .withBidPrice(masterJSON.getString("bidPrice"))
+        .withWeightedCapacity(masterJSON.getInt("targetSpotCapacity"));
+
+    List<InstanceTypeConfig> instanceTypeConfigs = new ArrayList<>();
+    instanceTypeConfigs.add(instanceTypeConfig);
+    instanceTypeConfigs.add(instanceTypeConfig2);
+
     instanceFleetConfig
         .withTargetSpotCapacity(slaveJSON.getInt("targetSpotCapacity"))
         .withTargetOnDemandCapacity(slaveJSON.getInt("targetOnDemandCapacity"))
         .withInstanceFleetType(InstanceFleetType.CORE)
-        .withInstanceTypeConfigs(instanceTypeConfig);
+        .withInstanceTypeConfigs(instanceTypeConfigs);
+
+    instanceFleetConfig
+        .withTargetSpotCapacity(slaveJSON.getInt("targetSpotCapacity"))
+        .withTargetOnDemandCapacity(slaveJSON.getInt("targetOnDemandCapacity"))
+        .withInstanceFleetType(InstanceFleetType.CORE)
+        .withInstanceTypeConfigs(instanceTypeConfigs);
   }
 
   public AddInstanceFleetRequest createAddInstanceFleetRequest() {
