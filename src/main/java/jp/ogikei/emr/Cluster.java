@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import com.amazonaws.services.elasticmapreduce.AmazonElasticMapReduce;
 import com.amazonaws.services.elasticmapreduce.model.Application;
+import com.amazonaws.services.elasticmapreduce.model.InstanceFleetConfig;
 import com.amazonaws.services.elasticmapreduce.model.JobFlowInstancesConfig;
 import com.amazonaws.services.elasticmapreduce.model.RunJobFlowRequest;
 import com.amazonaws.services.elasticmapreduce.model.RunJobFlowResult;
@@ -23,9 +24,6 @@ public class Cluster {
   private String serviceRole;
   private String jobFlowRole;
   private String keyName;
-  private String masterInstanceType;
-  private String slaveInstanceType;
-  private Integer instanceCount;
   private String masterSecurityGroup;
   private String slaveSecurityGroup;
 
@@ -52,42 +50,35 @@ public class Cluster {
 
     JSONObject resourcesObject = emrJSONObject.getJSONObject("resources");
     JSONObject masterJSONObject = resourcesObject.getJSONObject("master");
-    masterInstanceType = masterJSONObject.getString("type");
     masterSecurityGroup = masterJSONObject.getString("securityGroup");
 
-    JSONObject slaveJSONObject = resourcesObject.getJSONObject("slave");
-    slaveInstanceType = slaveJSONObject.getString("type");
+    JSONObject slaveJSONObject = resourcesObject.getJSONObject("core");
     slaveSecurityGroup = slaveJSONObject.getString("securityGroup");
-    instanceCount = slaveJSONObject.getInt("instanceCount");
   }
 
-  public void createEMRCluster(AmazonElasticMapReduce emrClient, JSONObject jsonObject) {
+  public void createEMRCluster(
+      AmazonElasticMapReduce emrClient, List<InstanceFleetConfig> instanceFleetConfigs) {
     // TODO: 2017/07/10 add configuration if needed
-//    Map<String,String> hiveProperties = new HashMap<String,String>();
-//    hiveProperties.put("hive.join.emit.interval","1000");
-//    hiveProperties.put("hive.merge.mapfiles","true");
-
-//    Configuration config = new Configuration()
-//        .withClassification("hive-site")
-//        .withProperties(hiveProperties);
+    //    Map<String,String> hiveProperties = new HashMap<String,String>();
+    //    hiveProperties.put("hive.join.emit.interval","1000");
+    //    hiveProperties.put("hive.merge.mapfiles","true");
+    //    Configuration config = new Configuration()
+    //        .withClassification("hive-site")
+    //        .withProperties(hiveProperties);
 
     RunJobFlowRequest jobFlowRequest = new RunJobFlowRequest()
         .withName(clusterName)
         .withReleaseLabel(emrVersion)
         .withApplications(applications)
         .withConfigurations()
-//        .withLogUri("s3:/xxxxxx/")
         .withServiceRole(serviceRole)
         .withJobFlowRole(jobFlowRole)
-//        .withSteps()
         .withInstances(new JobFlowInstancesConfig()
             .withEc2KeyName(keyName)
-            .withInstanceCount(instanceCount)
             .withKeepJobFlowAliveWhenNoSteps(true)
-            .withMasterInstanceType(masterInstanceType)
-            .withSlaveInstanceType(slaveInstanceType)
             .withAdditionalMasterSecurityGroups(masterSecurityGroup)
             .withAdditionalSlaveSecurityGroups(slaveSecurityGroup)
+            .withInstanceFleets(instanceFleetConfigs)
             .withEc2SubnetIds("subnet-94dfc2e2"));
 
     RunJobFlowResult jobFlowResult = emrClient.runJobFlow(jobFlowRequest);

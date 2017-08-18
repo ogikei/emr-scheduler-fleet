@@ -11,30 +11,33 @@
     "keyName": "emr-test",
     "resources": {
       "master": {
+        "name": "Master",
         "type": "m4.large",
         "securityGroup": "sg-df893eb9",
-        "bidPrice": "0.05",
+        "bidPrice": "0.04",
         "targetSpotCapacity": 1,
-        "targetOnDemandCapacity": 1,
-        "timeoutDurationMinutes": 120,
-        "timeoutAction": "SWITCH_TO_ON_DEMAND"
+        "targetOnDemandCapacity": 0,
+        "timeoutDurationMinutes": 30,
+        "timeoutAction": "TERMINATE_CLUSTER"
       },
       "core": {
+        "name": "Core",
         "type": "m4.large",
         "securityGroup": "sg-818a3de7",
-        "bidPrice": "0.05",
+        "bidPrice": "0.04",
         "targetSpotCapacity": 2,
-        "targetOnDemandCapacity": 2,
-        "timeoutDurationMinutes": 120,
+        "targetOnDemandCapacity": 0,
+        "timeoutDurationMinutes": 30,
         "timeoutAction": "TERMINATE_CLUSTER"
       },
       "task": {
+        "name": "Task",
         "type": "m4.large",
         "securityGroup": "sg-818a3de7",
-        "bidPrice": "0.05",
-        "targetSpotCapacity": 2,
-        "targetOnDemandCapacity": 2,
-        "timeoutDurationMinutes": 120,
+        "bidPrice": "0.04",
+        "targetSpotCapacity": 0,
+        "targetOnDemandCapacity": 0,
+        "timeoutDurationMinutes": 30,
         "timeoutAction": "TERMINATE_CLUSTER"
       }
     }

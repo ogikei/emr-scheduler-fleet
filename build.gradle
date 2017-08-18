@@ -1,4 +1,4 @@
-group 'com.dmm.aws'
+group 'jp.ogikei'
 version '1.0-SNAPSHOT'
 
 tasks.withType(JavaCompile){ options.encoding = 'UTF-8' }
@@ -33,7 +33,7 @@ dependencies {
 
 fatJar {
     manifest {
-        attributes 'Main-Class': 'com.dmm.aws.Main'
+        attributes 'Main-Class': 'jp.ogikei.Main'
     }
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
 }

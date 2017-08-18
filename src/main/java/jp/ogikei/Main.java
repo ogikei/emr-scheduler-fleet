@@ -1,6 +1,5 @@
 package jp.ogikei;
 
-import com.amazonaws.services.elasticmapreduce.model.InstanceFleetConfig;
 import java.io.InputStream;
 
 import jp.ogikei.auth.Credential;
@@ -35,8 +34,9 @@ class Main {
 
     Bucket bucket = new Bucket();
     InputStream inputStream = bucket.getObject(s3Client, bucketName, key);
-
     JSONObject jsonObject = bucket.getJSONObjectFromS3(inputStream);
+
+    Fleet fleet = new Fleet(jsonObject);
 
     AmazonElasticMapReduce emrClient = AmazonElasticMapReduceClientBuilder
         .standard()
@@ -45,12 +45,8 @@ class Main {
         .withRegion(region)
         .build();
 
-    Fleet fleet = new Fleet(jsonObject);
-    emrClient.addInstanceFleet(fleet.createAddInstanceFleetRequest());
-    emrClient.addInstanceFleet(fleet.createAddInstanceFleetRequest());
-
     Cluster cluster = new Cluster(jsonObject);
-    cluster.createEMRCluster(emrClient, jsonObject);
+    cluster.createEMRCluster(emrClient, fleet.createInstanceFleetConfigs());
   }
 
 }
